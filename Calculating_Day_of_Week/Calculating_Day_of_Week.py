@@ -1,15 +1,44 @@
+#########################################
+# Daniel Johnson
+# Assignment 4.1
+# 3/8/19
+#
+# Description: This program determines the day of the week for a given date
+#
+# Inputs: This program takes a day, month, and year (all int) as input
+#
+# Outputs: This outputs the day of the week that the given date occurred on
+#########################################
+
+
+
+################################
+# Purpose: This function returns
+# true if the input year is a
+# leap year
+# Input: This takes a 4 digit
+# year as input
+#
+# Return/Output: This returns
+# a boolean
+###############################
 def is_leap_year(year):
     if year % 400 == 0:
         return True
     else:
         return False
 
-'''
-This function should return True if year is a leap year and False if it is not. Here is
-pseudocode to determine a leap year:
-year is a leap year if ((year is divisible by 400) or (year is divisible by 4 and year is not
-divisible by 100))
-'''
+################################
+# Purpose: This function returns
+# a value based on the century
+#
+# Input: This takes a 4 digit
+# year as input
+#
+# Return/Output: This returns
+# an int value based on the input
+# year
+###############################
 def get_century_value(year):
     year = str(year)
     temp = year[0] + year[1]
@@ -17,12 +46,17 @@ def get_century_value(year):
     temp = (3 - (temp % 4)) * 2
     return temp
 
-'''
-This function should take the first two digits of the year (i.e. the century - you can get this
-using integer division), divide by 4, and save the remainder. Subtract the remainder from 3
-and return this value multiplied by 2. For example, the year 2011 becomes: (20/4) = 5
-remainder 0. 3 - 0 = 3. Return 3 * 2 = 6.
-'''
+################################
+# Purpose: This function returns
+# a value based on the year
+#
+# Input: This takes a 4 digit
+# year as input
+#
+# Return/Output: This returns
+# an int value based on the input
+# year
+###############################
 def get_year_value(year):
     year = str(year)
     temp = year[-2] + year[-1]
@@ -31,13 +65,20 @@ def get_year_value(year):
     temp = (temp // 4)
     temp = temp2 + temp
     return temp
-'''
-This function computes a value based on the years since the beginning of the century. First,
-extract the last two digits of the year (use modulus). For example, 11 is extracted for
-2011. Divide the resulting value by 4 and discard the remainder. Add the two results
-together and return this value. For example, from 2011 we extract 11. Then (11/4) = 2
-remainder 3. Return 2 + 11 = 13.
-'''
+
+
+################################
+# Purpose: This function returns
+# a value based on the month
+#
+# Input: This takes a 4 digit
+# year and a 2 digit month
+# as input
+#
+# Return/Output: This returns
+# an int value based on the input
+# month and year input
+###############################
 def get_month_value(month, year):
     if month == 1:
         if is_leap_year(year):
@@ -73,7 +114,23 @@ def get_month_value(month, year):
         print("An invalid answer was input. The program will now end")
         exit(0)
 
-def get_day_of_week():
+
+
+
+
+################################
+# Purpose: This function returns
+# the day of the week for a given
+# date
+#
+# Input: This takes 3 int inputs
+# as day, month, and year
+#
+# Return/Output: This returns
+# the day of the week as a string
+# based on input
+###############################
+def get_day_of_week(day, month, year):
     temp = (day + get_month_value(month,year) + get_year_value(year) + get_century_value(year))
     temp = temp % 7
     if temp == 0:
@@ -93,7 +150,11 @@ def get_day_of_week():
     else:
         return "Something went wrong"
 
-day = int(input("Enter the day (as a number): "))
-month = int(input("Enter the month (as a number): "))
-year = int(input("Enter the year (as a 4-digit number): "))
-print("That day of the week is a", get_day_of_week())
+
+
+
+#This uses the above functions to help a user find the day of the week a certain date was
+day_val = int(input("Enter the day (as a number): "))
+month_val = int(input("Enter the month (as a number): "))
+year_val = int(input("Enter the year (as a 4-digit number): "))
+print("That day of the week is a", get_day_of_week(day_val, month_val, year_val))
