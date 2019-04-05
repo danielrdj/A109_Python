@@ -1,16 +1,58 @@
-import random
+########################################################################################################################
+# Daniel Johnson
+# Assignment 5
+# 4/4/2019
+#
+# Description: This is a graphical version of tic-tac-toe using tkinter. Making a graphical version eliminated the need
+#              to create buttons for: adding a move (completed by clicking a square), updating board, determining whose
+#              turn it is, and declaring the winner. These were all eliminated by completing the task automatically or
+#              showing the board graphically. The "Restart Game" button was implemented because it could not be
+#              eliminated. Have fun playing.
+#
+#              Note: a & b were implemented using one function ("_add_move()") it did not make sense to me to separate
+#              these two functions in this situation.
+#
+#
+# Inputs: The user must click and choose his/her square and then wait while their opponent does the same. There
+#         is also an option to restart/reinitialize the game as well if you press a button next to the board.
+#
+# Outputs: This outputs a GUI and the rules for the game tic-tac-toe and also outputs the move that a player enters
+#          every time they click an available square. The game has a text section that output who's move it is or if
+#          someone has won.
+#
+# Picture resources:
+#       O: https://www.pngarts.com/files/2/Letter-O-Transparent-Background-PNG.png
+#       X: https://www.pngkey.com/png/full/128-1281692_rounded-x-black-x-clipart.png
+#       White box: Created using a screenshot tool.
+#
+########################################################################################################################
 from tkinter import *
 
 
 
 class TicTacToe:
 
-    # Main window and GUI creation:
+    ########################################
+    # Description: This initializes the GUI,
+    # instance variables, and the game board
+    # for tic-tac-toe.
+    #
+    # Inputs: This function takes no inputs
+    # other than the user inputs from the GUI
+    # when clicking.
+    #
+    # Returned value: There is no returned
+    # value.
+    #
+    # Preconditions: None.
+    ########################################
     def __init__(self):
 
+        # Holds the game board in a 2d list for easy board tracking
         self.list_game_board = [["n","n","n"],
                            ["n","n","n"],
                            ["n","n","n"]]
+
 
         # Window setup##############################################
         self.window = Tk()
@@ -113,6 +155,8 @@ class TicTacToe:
         # Third Row on board #####
         # Board ####################################################
 
+
+
         # Menu ####################################################
         self.menu_frame_frame = Frame(self.window, bg="black", relief="raised", bd=15, width=250, height=500)
         self.menu_frame_frame.grid(row=0, column=0, padx=(5, 0))
@@ -137,15 +181,30 @@ class TicTacToe:
         self.rules = "Rules:" + "\n" + rule1 + "\n" + rule2 + "\n" + rule3 + "\n\n" + have_fun
         self.text_box.insert(INSERT, self.rules)
         self.text_box.config(state="disabled")
-        #print(self.text_box.get("0.0", END))
-
         # Menu ####################################################
+
         # Creates window mainloop
         self.window.mainloop()
         # Creates window mainloop
 
 
-    # Adds a move to the board:
+    #a. add a move
+    #b. display the board
+    ########################################
+    # Description: This adds a move and
+    # updates the game board at the same time.
+    #
+    # Inputs: This takes a number (1-9) as
+    # inputs to determine which square was
+    # chosen as the move of the user.
+    #
+    # Returned value: There is no returned
+    # value.
+    #
+    # Preconditions: None; if num is not
+    # within the given threshold (1-9), the
+    # function will not break.
+    ########################################
     def _add_move(self, num):
 
         winner = self._determine_if_winner()
@@ -224,39 +283,68 @@ class TicTacToe:
             self.text_box.see("end")
         self._determine_if_winner()
             #print(self.list_game_board)
-    
-    
-    # Returns for True for X and False for O
+
+
+    #c. determine whose turn it is (X or O)
+    ########################################
+    # Description: This determines whose
+    # turn it is during the game by counting
+    # the moves on the 2d board
+    #
+    # Inputs: This does not take input
+    #
+    # Returned value: This returns True
+    # when it is X's turn and False when
+    # it is O's turn
+    #
+    # Preconditions: None
+    ########################################
     def _determine_turn(self):
         x_count = 0
         o_count = 0
+        # Counts all X's and O's
         for listing in self.list_game_board:
             for place in listing:
                 if place == "x":
                     x_count += 1
                 elif place == "o":
                     o_count +=1
+        # Determines it is X's turn and signals that it is O's turn because X's turn will be fulfilled
         if x_count == 0 and o_count == 0:
             self.text_box.config(state= "normal")
             self.text_box.insert(INSERT, "\n" + "It is O's turn.")
             self.text_box.config(state="disabled")
             self.text_box.see("end")
             return True
+        # Determines it is O's turn and signals that it is X's turn because O's turn will be fulfilled
         elif x_count > o_count:
             self.text_box.config(state="normal")
             self.text_box.insert(INSERT, "\n" + "It is X's turn.")
             self.text_box.config(state="disabled")
             self.text_box.see("end")
             return False
+        # Determines it is X's turn and signals that it is O's turn because X's turn will be fulfilled
         else:
             self.text_box.config(state="normal")
             self.text_box.insert(INSERT, "\n" + "It is O's turn.")
             self.text_box.config(state="disabled")
             self.text_box.see("end")
             return True
-    
-    
-    # Determines if there is a winner
+
+
+    #d. determine if there is a winner
+    ########################################
+    # Description: This determines if there
+    # is a winner during the game.
+    #
+    # Inputs: This does not take input
+    #
+    # Returned value: This returns "x" if
+    # X is the winner and "o" if O is the
+    # winner
+    #
+    # Preconditions: None
+    ########################################
     def _determine_if_winner(self):
         #Checks rows for winner
         for x in range(3):
@@ -314,9 +402,22 @@ class TicTacToe:
         if count == 0:
             self._declare_winner("none")
             return "none"
-    
-    
-    # Declares the winner to the players
+
+
+    #e. say who the winner is
+    ########################################
+    # Description: This declares the winner
+    # when called. It will declare X is
+    # the winner, O is the winner, or
+    # no one has won. This depends on the
+    # input.
+    #
+    # Inputs: This takes a string as input.
+    #
+    # Returned value: This returns no value.
+    #
+    # Preconditions: None.
+    ########################################
     def _declare_winner(self, letter):
         if letter == "x":
             self.text_box.config(state="normal")
@@ -335,7 +436,18 @@ class TicTacToe:
             self.text_box.see("end")
 
 
-    #reinitializes the game board to a blank board
+    #f. reinitialize the game to the beginning
+    ########################################
+    # Description: This resets the graphical
+    # game board and the 2D list game board.
+    #
+    # Inputs: This takes no input
+    #
+    # Returned value: This returns no value
+    #
+    # Preconditions: None; This will always
+    # reset the board
+    ########################################
     def _reinitialize_game(self):
         #print(self.list_game_board)
         for x in range(len(self.list_game_board)):
@@ -359,4 +471,6 @@ class TicTacToe:
         self.text_box.see("end")
     
 
+
+# Making the class object will start the GUI
 ttt = TicTacToe()
